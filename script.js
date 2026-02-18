@@ -10,7 +10,7 @@ function addMessage(sender, text) {
   chat.scrollTop = chat.scrollHeight;
 }
 
-sendbtn.addEventListener("click", async () => {
+async function sendMessage() {
   const message = userinput.value.trim();
   if (!message) return;
 
@@ -20,9 +20,7 @@ sendbtn.addEventListener("click", async () => {
   try {
     const response = await fetch("/api/chat", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ message })
     });
 
@@ -31,11 +29,12 @@ sendbtn.addEventListener("click", async () => {
 
   } catch (error) {
     addMessage("ai", "Error connecting to backend.");
+    console.error(error);
   }
-});
+}
+
+sendbtn.addEventListener("click", sendMessage);
 
 userinput.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") {
-    sendbtn.click();
-  }
+  if (e.key === "Enter") sendMessage();
 });
