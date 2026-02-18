@@ -1,15 +1,12 @@
 import json
 
 def main(request):
-    # Vercel sends method and body as dictionary
-    if request['method'] != 'POST':
-        return {
-            "statusCode": 405,
-            "body": "Method Not Allowed"
-        }
+    # request: dictionary
+    if request["method"] != "POST":
+        return {"statusCode": 405, "body": "Method Not Allowed"}
 
-    data = json.loads(request['body'])
-    user = data.get("message", "").lower()
+    body = json.loads(request["body"])
+    user = body.get("message", "").lower()
 
     if "hello" in user:
         reply = "Hello Abdul ☺️"
