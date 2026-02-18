@@ -1,8 +1,8 @@
 import json
 
-def handler(request):
+def handler(request, response):
     if request.method == "POST":
-        body = request.get_json()
+        body = request.json()
         user = body.get("message", "").lower()
 
         if "hello" in user:
@@ -14,15 +14,9 @@ def handler(request):
         else:
             reply = "That sounds interesting... tell me more."
 
-        return {
-            "statusCode": 200,
-            "headers": {
-                "Content-Type": "application/json"
-            },
-            "body": json.dumps({"response": reply})
-        }
-
-    return {
-        "statusCode": 405,
-        "body": "Method Not Allowed"
-    }
+        response.status_code = 200
+        response.headers["Content-Type"] = "application/json"
+        response.write(json.dumps({"response": reply}))
+    else:
+        response.status_code = 405
+        response.write("Method Not Allowed")
