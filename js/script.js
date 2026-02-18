@@ -3,10 +3,10 @@ const chat = document.getElementById("chat");
 const userInput = document.getElementById("user-input");
 const sendBtn = document.getElementById("send-btn");
 
-// Function to add messages to chat
+// Function to add messages
 function addMessage(sender, text) {
   const messageDiv = document.createElement("div");
-  messageDiv.classList.add("message", sender); // "user" or "ai"
+  messageDiv.classList.add("message", sender);
   messageDiv.textContent = text;
   chat.appendChild(messageDiv);
   chat.scrollTop = chat.scrollHeight;
