@@ -1,12 +1,11 @@
-import json
+from flask import Flask, request, jsonify
 
-def main(request):
-    # request: dictionary
-    if request["method"] != "POST":
-        return {"statusCode": 405, "body": "Method Not Allowed"}
+app = Flask(__name__)
 
-    body = json.loads(request["body"])
-    user = body.get("message", "").lower()
+@app.route("/api/chat", methods=["POST"])
+def chat():
+    data = request.get_json()
+    user = data.get("message", "").lower()
 
     if "hello" in user:
         reply = "Hello Abdul ☺️"
@@ -17,8 +16,7 @@ def main(request):
     else:
         reply = "That sounds interesting... tell me more."
 
-    return {
-        "statusCode": 200,
-        "headers": {"Content-Type": "application/json"},
-        "body": json.dumps({"response": reply})
-    }
+    return jsonify({"response": reply})
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
